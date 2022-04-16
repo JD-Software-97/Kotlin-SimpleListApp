@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">HarryPotterApp</string>
     <string name="harry_potter">Harry Potter</string>
+    <string name="human">Human</string>
 </resources>

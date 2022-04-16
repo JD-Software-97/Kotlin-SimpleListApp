@@ -3,10 +3,12 @@ package com.jd.harrypotterapp.presentation.item
 import android.graphics.Bitmap
 import android.view.View
 import com.jd.harrypotterapp.R
+import com.jd.harrypotterapp.data.entity.CharacterEntity
 import com.jd.harrypotterapp.databinding.HomeLayoutBinding
 import com.xwray.groupie.viewbinding.BindableItem
 
-class ListItem(val name: String, val image: Bitmap) : BindableItem<HomeLayoutBinding>() {
+class ListItem(private val characterEntity: CharacterEntity, private val image: Bitmap) :
+    BindableItem<HomeLayoutBinding>() {
 
     override fun getLayout(): Int = R.layout.home_layout
 
@@ -20,6 +22,8 @@ class ListItem(val name: String, val image: Bitmap) : BindableItem<HomeLayoutBin
 
     private fun HomeLayoutBinding.bind() {
         characterImg.setImageBitmap(image)
-        nameTxt.text = name
+        nameTxt.text = characterEntity.name
+        speciesText.text = characterEntity.species
+        birthText.text = characterEntity.dateOfBirth
     }
 }

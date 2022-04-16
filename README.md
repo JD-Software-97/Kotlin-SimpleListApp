@@ -7,6 +7,7 @@ The app in build in an MVVM Pattern, while also adhering to the principle of Cle
 It also makes use of the following tools/libraries:
 - Dagger2
 - Coroutines
+- ViewBinding
 - Retrofit2
 - Groupie
 - Navigation Component
