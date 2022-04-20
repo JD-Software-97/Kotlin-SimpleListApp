@@ -22,8 +22,11 @@ class ListItem(private val characterEntity: CharacterEntity, private val image: 
 
     private fun HomeLayoutBinding.bind() {
         characterImg.setImageBitmap(image)
-        nameTxt.text = characterEntity.name
-        speciesText.text = characterEntity.species
-        birthText.text = characterEntity.dateOfBirth
+        nameTxt.text =
+            characterEntity.name.ifBlank { root.resources.getString(R.string.unknown_name) }
+        speciesText.text =
+            characterEntity.species.ifBlank { root.resources.getString(R.string.unknown_species) }
+        birthText.text =
+            characterEntity.dateOfBirth.ifBlank { root.resources.getString(R.string.unknown_dob) }
     }
 }

@@ -2,4 +2,7 @@
     <string name="app_name">HarryPotterApp</string>
     <string name="harry_potter">Harry Potter</string>
     <string name="human">Human</string>
+    <string name="unknown_name">Unknown Name</string>
+    <string name="unknown_species">Unknown Species</string>
+    <string name="unknown_dob">Unknown D.O.B</string>
 </resources>
