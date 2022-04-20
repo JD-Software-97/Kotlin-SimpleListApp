@@ -7,19 +7,21 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jd.harrypotterapp.data.entity.CharacterEntity
 import com.jd.harrypotterapp.domain.GetDataInteractor
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(
-    val getDataInteractor: GetDataInteractor
+    private val getDataInteractor: GetDataInteractor
 ) : ViewModel() {
 
-    private val mutableDataLoadedEvent: MutableLiveData<List<CharacterEntity>> = MutableLiveData()
-    val dataLoadedEvent: LiveData<List<CharacterEntity>> = mutableDataLoadedEvent
+    private val mutableDataLoadedEvent: MutableLiveData<List<CharacterEntity>> =
+        MutableLiveData()
+
+    val dataLoadedEvent: LiveData<List<CharacterEntity>> =
+        mutableDataLoadedEvent
 
     fun startDataRetrieval() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             val response = getDataInteractor.getCharacterData()
 
             if (response.isSuccessful) {

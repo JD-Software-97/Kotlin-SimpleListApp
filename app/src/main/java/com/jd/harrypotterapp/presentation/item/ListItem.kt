@@ -7,7 +7,7 @@ import com.jd.harrypotterapp.data.entity.CharacterEntity
 import com.jd.harrypotterapp.databinding.HomeLayoutBinding
 import com.xwray.groupie.viewbinding.BindableItem
 
-class ListItem(private val characterEntity: CharacterEntity, private val image: Bitmap) :
+class ListItem(private val characterEntity: CharacterEntity, private val image: Bitmap?) :
     BindableItem<HomeLayoutBinding>() {
 
     override fun getLayout(): Int = R.layout.home_layout
@@ -21,11 +21,12 @@ class ListItem(private val characterEntity: CharacterEntity, private val image: 
     }
 
     private fun HomeLayoutBinding.bind() {
-        characterImg.setImageBitmap(image)
+        image?.let { characterImg.setImageBitmap(it) }
         nameTxt.text =
             characterEntity.name.ifBlank { root.resources.getString(R.string.unknown_name) }
         speciesText.text =
-            characterEntity.species.ifBlank { root.resources.getString(R.string.unknown_species) }
+            characterEntity.species.capitalize()
+                .ifBlank { root.resources.getString(R.string.unknown_species) }
         birthText.text =
             characterEntity.dateOfBirth.ifBlank { root.resources.getString(R.string.unknown_dob) }
     }

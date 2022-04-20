@@ -1,5 +1,6 @@
 package com.jd.harrypotterapp.presentation
 
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -58,29 +59,37 @@ class HomeFragment : Fragment() {
     }
 
     private suspend fun showData(data: List<CharacterEntity>) {
-        withContext(Dispatchers.Main) {
-            binding.progressCircular.isVisible = true
-        }
+        handleLoadingIndicator(true)
 
         val adapter = GroupAdapter<GroupieViewHolder>()
 
-        data.forEach { characterEntity ->
-            val bitmap = try {
-                BitmapFactory.decodeStream(
-                    URL(characterEntity.image).openConnection().getInputStream()
-                )
-            } catch (e: Exception) {
-                null
-            }
-
-            bitmap?.let {
-                adapter.add(ListItem(characterEntity, it))
-            }
-        }
+        adapter.addAll(data.map {
+            ListItem(
+                characterEntity = it,
+                image = getImage(it.image)
+            )
+        })
 
         withContext(Dispatchers.Main) {
             binding.recyclerView.adapter = adapter
-            binding.progressCircular.isVisible = false
+        }
+
+        handleLoadingIndicator(false)
+    }
+
+    private fun getImage(image: String): Bitmap? {
+        return try {
+            BitmapFactory.decodeStream(
+                URL(image).openConnection().getInputStream()
+            )
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    private suspend fun handleLoadingIndicator(isLoading: Boolean) {
+        withContext(Dispatchers.Main) {
+            binding.progressCircular.isVisible = isLoading
         }
     }
 
