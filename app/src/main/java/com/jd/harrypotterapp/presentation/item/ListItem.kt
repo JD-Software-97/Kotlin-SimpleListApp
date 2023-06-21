@@ -28,6 +28,6 @@ class ListItem(private val characterEntity: CharacterEntity, private val image: 
             characterEntity.species.capitalize()
                 .ifBlank { root.resources.getString(R.string.unknown_species) }
         birthText.text =
-            characterEntity.dateOfBirth.ifBlank { root.resources.getString(R.string.unknown_dob) }
+            characterEntity.dateOfBirth?.ifBlank { root.resources.getString(R.string.unknown_dob) } ?: root.resources.getString(R.string.unknown_dob)
     }
 }

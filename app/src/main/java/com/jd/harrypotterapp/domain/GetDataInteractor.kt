@@ -21,6 +21,6 @@ class GetDataInteractor @Inject constructor() {
     }
 
     companion object {
-        const val BASE_URL = "http://hp-api.herokuapp.com/"
+        const val BASE_URL = "http://hp-api.onrender.com/api/"
     }
 }

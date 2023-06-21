@@ -79,9 +79,15 @@ class HomeFragment : Fragment() {
 
     private fun getImage(image: String): Bitmap? {
         return try {
-            BitmapFactory.decodeStream(
-                URL(image).openConnection().getInputStream()
-            )
+            if(image.isNotBlank()) {
+                BitmapFactory.decodeStream(
+                    URL(image).openConnection().getInputStream()
+                )
+            }else{
+                BitmapFactory.decodeStream(
+                    URL("https://upload.wikimedia.org/wikipedia/en/5/5a/Black_question_mark.png").openConnection().getInputStream()
+                )
+            }
         } catch (e: Exception) {
             null
         }

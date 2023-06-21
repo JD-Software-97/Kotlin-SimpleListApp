@@ -2,8 +2,8 @@ buildscript {
     ext.kotlin_version = '1.4.21'
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.1.1'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10"
+        classpath 'com.android.tools.build:gradle:8.0.2'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.21'
     }
 
     repositories {
@@ -50,6 +50,7 @@ android {
     viewBinding {
         enabled = true
     }
+    namespace 'com.jd.harrypotterapp'
 }
 
 dependencies {
