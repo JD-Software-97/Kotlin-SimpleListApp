@@ -1,6 +1,6 @@
-# List App From API (MVVM + Dagger + Coroutines):
+# List App From API (Kotlin + MVVM + Dagger + Coroutines):
 
-A simple Android app, which gets data from an API (https://hp-api.herokuapp.com/), and displays this data in a scrollable list.
+A simple Kotlin Android app, which gets data from an API (https://hp-api.herokuapp.com/), and displays this data in a scrollable list.
 
 The app in build in an MVVM Pattern, while also adhering to the principle of Clean Architecture.
 
