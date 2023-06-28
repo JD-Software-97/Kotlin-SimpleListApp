@@ -6,16 +6,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
+import androidx.compose.material.MaterialTheme
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.jd.harrypotterapp.core.ViewModelFactory
 import com.jd.harrypotterapp.data.entity.CharacterEntity
 import com.jd.harrypotterapp.databinding.HomeFragmentBinding
 import com.jd.harrypotterapp.presentation.di.DaggerHomeFragmentComponent
-import com.jd.harrypotterapp.presentation.item.ListItem
-import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.GroupieViewHolder
+import com.jd.harrypotterapp.presentation.item.CharacterListEntity
 import kotlinx.coroutines.*
 import java.net.URL
 import javax.inject.Inject
@@ -29,6 +29,9 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding: HomeFragmentBinding
 
+    private var characterList = mutableStateListOf<CharacterListEntity>()
+    private var loadingHolder = mutableStateOf(false)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectDependencies()
@@ -39,7 +42,17 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = HomeFragmentBinding.inflate(layoutInflater)
+        binding = HomeFragmentBinding.inflate(layoutInflater).apply {
+            composeView.setContent {
+                MaterialTheme {
+                    HomeComposable(
+                        characterList,
+                        loadingHolder
+                    )
+                }
+            }
+        }
+
         return binding.root
     }
 
@@ -58,45 +71,38 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private suspend fun showData(data: List<CharacterEntity>) {
+    private fun showData(data: List<CharacterEntity>) {
         handleLoadingIndicator(true)
 
-        val adapter = GroupAdapter<GroupieViewHolder>()
-
-        adapter.addAll(data.map {
-            ListItem(
-                characterEntity = it,
-                image = getImage(it.image)
-            )
+        characterList.addAll(data.map {
+            CharacterListEntity(entity = it, image = getImage(it.image))
         })
-
-        withContext(Dispatchers.Main) {
-            binding.recyclerView.adapter = adapter
-        }
 
         handleLoadingIndicator(false)
     }
 
-    private fun getImage(image: String): Bitmap? {
+    private fun getImage(image: String): Bitmap {
         return try {
-            if(image.isNotBlank()) {
+            if (image.isNotBlank()) {
                 BitmapFactory.decodeStream(
                     URL(image).openConnection().getInputStream()
                 )
-            }else{
+            } else {
                 BitmapFactory.decodeStream(
-                    URL("https://upload.wikimedia.org/wikipedia/en/5/5a/Black_question_mark.png").openConnection().getInputStream()
+                    URL("https://upload.wikimedia.org/wikipedia/en/5/5a/Black_question_mark.png").openConnection()
+                        .getInputStream()
                 )
             }
         } catch (e: Exception) {
-            null
+            BitmapFactory.decodeStream(
+                URL("https://upload.wikimedia.org/wikipedia/en/5/5a/Black_question_mark.png").openConnection()
+                    .getInputStream()
+            )
         }
     }
 
-    private suspend fun handleLoadingIndicator(isLoading: Boolean) {
-        withContext(Dispatchers.Main) {
-            binding.progressCircular.isVisible = isLoading
-        }
+    private fun handleLoadingIndicator(isLoading: Boolean) {
+        loadingHolder.value = isLoading
     }
 
     private fun injectDependencies() {
