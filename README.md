@@ -1,4 +1,4 @@
-# List App From API (Kotlin + MVVM + Dagger + Coroutines):
+# List App From API (Kotlin + MVVM + Jetpack Compose + Dagger + Coroutines):
 
 A simple Kotlin Android app, which gets data from an API (https://hp-api.herokuapp.com/), and displays this data in a scrollable list.
 
@@ -7,6 +7,7 @@ The app in build in an MVVM Pattern, while also adhering to the principle of Cle
 It also makes use of the following tools/libraries:
 - Dagger2
 - Coroutines
+- Jetpack Compose
 - ViewBinding
 - Retrofit2
 - Groupie
